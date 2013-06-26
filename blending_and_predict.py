@@ -42,11 +42,11 @@ X_test = X[train_cutoff:]
 Y_test = Y[train_cutoff:]
 
 classifiers = [
-    RandomForestClassifier(n_estimators=10, criterion='gini'),
-    RandomForestClassifier(n_estimators=10, criterion='entropy'),
-    ExtraTreesClassifier(n_estimators=10, criterion='gini'),
-    ExtraTreesClassifier(n_estimators=10, criterion='entropy'),
-    GradientBoostingClassifier(n_estimators=10),
+    RandomForestClassifier(n_estimators=100, criterion='gini'),
+    RandomForestClassifier(n_estimators=100, criterion='entropy'),
+    ExtraTreesClassifier(n_estimators=100, criterion='gini'),
+    ExtraTreesClassifier(n_estimators=100, criterion='entropy'),
+    GradientBoostingClassifier(n_estimators=100),
 ]
 
 Y_predict = [ [] for i in xrange(len(classifiers)) ]
@@ -67,3 +67,28 @@ for i in xrange(len(Y_predict[0])):
     #     print '%s %s %s %s %s => %s' % (Y_predict[0][i], Y_predict[1][i], Y_predict[2][i], Y_predict[3][i], Y_predict[4][i], vote)
     
 accuracy(Y_mean, Y_test)
+
+# start real prediction
+
+X_submission = [ i for i in test_data ]
+
+Y_submission_predict = [ [] for i in xrange(len(classifiers)) ]
+
+for i, classifier in enumerate(classifiers):
+    print 'Just predict via classifier %d' % (i)
+    Y_submission_predict[i] = classifier.predict(X_submission)
+
+Y_submission_mean = []
+for i in xrange(len(Y_submission_predict[0])):
+    counter = Counter([Y_submission_predict[classifier_id][i] for classifier_id in xrange(len(classifiers))])
+    vote = counter.most_common(1)[0][0] # if a tie occurs, the smaller predicted number wins
+    Y_submission_mean.append(vote)
+    
+    # Uncomment this code to see the voting and the tie-breaking here
+    # for classifier_id in xrange(len(classifiers)):
+    #     print '%s %s %s %s %s => %s' % (Y_predict[0][i], Y_predict[1][i], Y_predict[2][i], Y_predict[3][i], Y_predict[4][i], vote)
+
+f = file('blending_and_predict.out.txt', 'wb')
+for i in Y_submission_mean:
+    f.write(str(i)+'\n')
+f.close()
