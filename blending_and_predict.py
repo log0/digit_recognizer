@@ -5,6 +5,8 @@ Accuracy is 86% on small_train.csv . Max at 90.8%.
 Average accuracy at 95.60% on train.csv . Max at 95.73% (95.59%). At 10 trees per forest.
 Average accuracy at ??% on train.csv . Max at 96.67%. At 50 trees per forest.
 
+Running for 100 trees per forest takes about 90 minutes.
+
 """
 import csv
 import random
