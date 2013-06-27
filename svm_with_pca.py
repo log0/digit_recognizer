@@ -32,7 +32,7 @@ for n_components in [50, 75, 100]:
     
     pca = PCA(n_components=n_components)
     pca.fit(X)
-    # print pca.explained_variance_ratio_
+    
     X = pca.transform(X)
 
     train_cutoff = len(data) * 3/4
@@ -70,16 +70,3 @@ for n_components in [50, 75, 100]:
             print '[n_c=%d][C=%12d][gamma=%15.13f] Accuracy = %s' % (n_components, c, gamma, accuracy)
             
             classifiers.append(classifier)
-
-    # test_data = [ i for i in csv.reader(file(test_file, 'rb')) ]
-    # test_data = test_data[1:] # remove header
-            
-    # X_submission = np.array([ [ float(j) for j in i[1:] ] for i in test_data ])
-    # X_submission = pca.transform(X_submission)
-
-    # Y_submission = max_classifier.predict(X_submission)
-
-    # f = file('svm_and_predict.c%s.gamma%015.13f.out.csv' % (max_c, max_gamma), 'wb')
-    # f.write('\n'.join([str(i) for i in Y_submission]))
-    # f.close()
-        
