@@ -44,9 +44,9 @@ max_gamma = 0
 max_accuracy = 0
 max_classifier = None
 
-for c in [10000, 100000]:
-    for gamma in [0.00000001, 0.0000001, 0.000001]:
-        classifier = svm.SVC(C=c, gamma=gamma)        
+for c in [10000]:
+    for gamma in [0.001]:
+        classifier = svm.SVC(C=c, gamma=gamma)
         classifier.fit(X_train, Y_train)
 
         Y_predict = classifier.predict(X_test)
@@ -65,7 +65,7 @@ for c in [10000, 100000]:
         print '[C=%12d][gamma=%15.13f] Accuracy = %s' % (c, gamma, accuracy)
         
         classifiers.append(classifier)
-
+"""
 X_submission = [ i for i in test_data ]
 
 Y_submission = max_classifier.predict(X_submission)
@@ -73,4 +73,4 @@ Y_submission = max_classifier.predict(X_submission)
 f = file('svm_and_predict.c%s.gamma%015.13f.out.csv' % (max_c, max_gamma), 'wb')
 f.write('\n'.join([str(i) for i in Y_submission]))
 f.close()
-    
+"""
