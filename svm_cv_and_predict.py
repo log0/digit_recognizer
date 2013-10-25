@@ -69,6 +69,7 @@ X_submission = [ i for i in test_data ]
 Y_submission = max_classifier.predict(X_submission)
 
 f = file('svm_and_predict.cross_validation.c%s.gamma%015.13f.out.csv' % (max_c, max_gamma), 'wb')
-f.write('\n'.join([str(i) for i in Y_submission]))
+for i in Y_submission:
+    f.write('%.6f\n' % i)
 f.close()
     

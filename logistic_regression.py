@@ -1,24 +1,21 @@
-﻿"""
-This uses RandomForest from Scikit-learn.
-
-Average accuracy at 84.2% % on small_train.csv . (10 trees)
-Average accuracy at 93.9% on train.csv . (10 trees)
+"""
 
 """
 
 import csv
 import random
-from sklearn.ensemble import RandomForestClassifier
+import numpy as np
+from sklearn.linear_model import LogisticRegression
 
 if __name__ == '__main__':
-    train_file = 'data/small_train.csv'
+    train_file = 'data/train.csv'
 
     data = [ i for i in csv.reader(file(train_file, 'rb')) ]
     data = data[1:] # remove header
     random.shuffle(data)
 
-    X = [ i[1:] for i in data ]
-    Y = [ i[0] for i in data ]
+    X = np.array([ i[1:] for i in data ]).astype(float)
+    Y = np.array([ i[0] for i in data ]).astype(int)
 
     train_cutoff = len(data) * 3/4
 
@@ -27,7 +24,7 @@ if __name__ == '__main__':
     X_test = X[train_cutoff:]
     Y_test = Y[train_cutoff:]
 
-    classifier = RandomForestClassifier(n_estimators=1000, n_jobs=3)
+    classifier = LogisticRegression()
     classifier = classifier.fit(X_train, Y_train)
     
     print 'Training error : %s' % (classifier.fit(X_train, Y_train).score(X_train, Y_train))
