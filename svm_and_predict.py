@@ -19,7 +19,7 @@ import numpy as np
 from sklearn import svm
 from sklearn import preprocessing
 
-train_file = 'data/small_train.csv'
+train_file = 'data/train.csv'
 test_file = 'data/test.csv'
 
 test_data = [ i for i in csv.reader(file(test_file, 'rb')) ]
@@ -47,7 +47,7 @@ max_gamma = 0
 max_accuracy = 0
 max_classifier = None
 
-for c in [10000]:
+for c in [10]:
     for gamma in [0.0001]:
         classifier = svm.SVC(C=c, gamma=gamma)
         classifier.fit(X_train, Y_train)
@@ -68,6 +68,7 @@ for c in [10000]:
         print '[C=%12d][gamma=%15.13f] Accuracy = %s' % (c, gamma, accuracy)
         
         classifiers.append(classifier)
+
 """
 X_submission = [ i for i in test_data ]
 
