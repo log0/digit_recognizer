@@ -15,9 +15,11 @@ D:\L\source\digit_recognizer>python svm_and_predict.py
 
 import csv
 import random
+import numpy as np
 from sklearn import svm
+from sklearn import preprocessing
 
-train_file = 'data/train.csv'
+train_file = 'data/small_train.csv'
 test_file = 'data/test.csv'
 
 test_data = [ i for i in csv.reader(file(test_file, 'rb')) ]
@@ -27,8 +29,9 @@ data = [ i for i in csv.reader(file(train_file, 'rb')) ]
 data = data[1:] # remove header
 random.shuffle(data)
 
-X = [ i[1:] for i in data ]
-Y = [ i[0] for i in data ]
+X = np.array([ i[1:] for i in data ]).astype(float)
+X = preprocessing.scale(X)
+Y = np.array([ i[0] for i in data ]).astype(int)
 
 train_cutoff = len(data) * 3/4
 
@@ -45,7 +48,7 @@ max_accuracy = 0
 max_classifier = None
 
 for c in [10000]:
-    for gamma in [0.001]:
+    for gamma in [0.0001]:
         classifier = svm.SVC(C=c, gamma=gamma)
         classifier.fit(X_train, Y_train)
 
