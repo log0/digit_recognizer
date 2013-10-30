@@ -13,6 +13,38 @@ for each of 'k' folds:
 8) multiply model predictions by the coefficients obtained in 6
 9) sum the result.  this is your ensemble prediction.
 
+Log output:
+
+Training clf [0]
+Training clf [1]
+>>> blender = LogisticRegression()
+>>> blender.fit(blend_X, Y_dev)
+LogisticRegression(C=1.0, class_weight=None, dual=False, fit_intercept=True,
+          intercept_scaling=1, penalty='l2', random_state=None, tol=0.0001)
+>>>
+>>> blender_coef = blender.coef_
+>>>
+>>>
+>>> Y_test_predicts = np.zeros((X_test.shape[0], len(clfs)))
+>>> for i, clf in enumerate(clfs):
+...     clf.fit(X_dev, Y_dev)
+...     Y_test_predict = clf.predict(X_test)
+...     Y_test_predicts[:,i] = Y_test_predict
+...
+RidgeClassifier(alpha=0.001, class_weight=None, copy_X=True,
+        fit_intercept=True, max_iter=None, normalize=False, solver='auto',
+        tol=0.001)
+RandomForestClassifier(bootstrap=True, compute_importances=None,
+            criterion='gini', max_depth=None, max_features='auto',
+            min_density=None, min_samples_leaf=1, min_samples_split=2,
+            n_estimators=100, n_jobs=1, oob_score=False, random_state=None,
+            verbose=0)
+>>> blender_coef.shape
+(10L, 2L)
+>>> Y_test_predicts.shape
+(400L, 2L)
+>>>
+
 """
 
 import csv
