@@ -23,6 +23,7 @@ def accuracy(Y_predict, Y_test):
     print 'Accuracy = %s' % (float(equal)/len(Y_predict))
 
 def train_and_predict(classifier, X_train, Y_train, X_test):
+    print 'Training classifier %s' % (classifier)
     classifier.fit(X_train, Y_train)
     return classifier.predict(X_test)
 
@@ -44,11 +45,11 @@ if __name__ == '__main__':
     Y_test = Y[train_cutoff:]
 
     classifiers = [
-        RandomForestClassifier(n_estimators=10, criterion='gini'),
-        RandomForestClassifier(n_estimators=10, criterion='entropy'),
-        ExtraTreesClassifier(n_estimators=10, criterion='gini'),
-        ExtraTreesClassifier(n_estimators=10, criterion='entropy'),
-        GradientBoostingClassifier(n_estimators=10),
+        RandomForestClassifier(n_estimators=10, criterion='gini', verbose = 1, n_jobs = -1),
+        RandomForestClassifier(n_estimators=10, criterion='entropy', verbose = 1, n_jobs = -1),
+        ExtraTreesClassifier(n_estimators=10, criterion='gini', verbose = 1, n_jobs = -1),
+        ExtraTreesClassifier(n_estimators=10, criterion='entropy', verbose = 1, n_jobs = -1),
+        GradientBoostingClassifier(n_estimators=10, verbose = 1, n_jobs = -1),
     ]
 
     Y_predict = Parallel(n_jobs = -1)(delayed(train_and_predict)(classifier, X_train, Y_train, X_test) for classifier in classifiers)
