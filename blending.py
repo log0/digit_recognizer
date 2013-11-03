@@ -45,11 +45,11 @@ if __name__ == '__main__':
     Y_test = Y[train_cutoff:]
 
     classifiers = [
-        RandomForestClassifier(n_estimators=10, criterion='gini', verbose = 1, n_jobs = -1),
-        RandomForestClassifier(n_estimators=10, criterion='entropy', verbose = 1, n_jobs = -1),
-        ExtraTreesClassifier(n_estimators=10, criterion='gini', verbose = 1, n_jobs = -1),
-        ExtraTreesClassifier(n_estimators=10, criterion='entropy', verbose = 1, n_jobs = -1),
-        GradientBoostingClassifier(n_estimators=10, verbose = 1, n_jobs = -1),
+        RandomForestClassifier(n_estimators=10, criterion='gini', verbose = 1),
+        RandomForestClassifier(n_estimators=10, criterion='entropy', verbose = 1),
+        ExtraTreesClassifier(n_estimators=10, criterion='gini', verbose = 1),
+        ExtraTreesClassifier(n_estimators=10, criterion='entropy', verbose = 1),
+        GradientBoostingClassifier(n_estimators=10),
     ]
 
     Y_predict = Parallel(n_jobs = -1)(delayed(train_and_predict)(classifier, X_train, Y_train, X_test) for classifier in classifiers)
