@@ -55,6 +55,7 @@ from sklearn.svm import *
 from sklearn.ensemble import *
 from sklearn.cross_validation import KFold
 from sklearn import preprocessing
+from sklearn import metrics
 
 train_file = 'data/small_train.csv'
 
@@ -78,7 +79,7 @@ Y_test = Y[train_cutoff:]
 n = X_dev.shape[0]
 
 clfs = [
-    RidgeClassifier(alpha = 0.001),
+    RidgeClassifier(alpha = 0.001, normalize = True),
     RandomForestClassifier(n_estimators = 100),    
 ]
 
@@ -108,3 +109,6 @@ for i, clf in enumerate(clfs):
     Y_test_predict = clf.predict(X_test)
     Y_test_predicts[:,i] = Y_test_predict
 
+blend_Y_predict = blender.predict(Y_test_predicts)
+
+print metrics.accuracy_score(Y_test, blend_Y_predict)

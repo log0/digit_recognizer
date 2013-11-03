@@ -11,11 +11,13 @@ import random
 from sklearn.ensemble import RandomForestClassifier
 
 if __name__ == '__main__':
-    train_file = 'data/small_train.csv'
+    train_file = 'data/train.csv'
 
     data = [ i for i in csv.reader(file(train_file, 'rb')) ]
     data = data[1:] # remove header
     random.shuffle(data)
+    
+    print 'Finish reading data'
 
     X = [ i[1:] for i in data ]
     Y = [ i[0] for i in data ]
@@ -27,10 +29,10 @@ if __name__ == '__main__':
     X_test = X[train_cutoff:]
     Y_test = Y[train_cutoff:]
 
-    classifier = RandomForestClassifier(n_estimators=1000, n_jobs=3)
+    classifier = RandomForestClassifier(n_estimators=200, n_jobs=-1)
     classifier = classifier.fit(X_train, Y_train)
     
-    print 'Training error : %s' % (classifier.fit(X_train, Y_train).score(X_train, Y_train))
+    print 'Training error : %s' % (classifier.score(X_train, Y_train))
 
     Y_predict = classifier.predict(X_test)
 
